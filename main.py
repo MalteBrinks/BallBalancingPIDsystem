@@ -18,7 +18,7 @@ yellow = Motor C
 """
 redRange = np.array([6,81,130]), np.array([41,255,233])
 
-pid = 11, .95, 208  #15, .96, 204
+pid = 11, .96, 204   #15, .96, 204         11, .96, 204 
 greenPIDval = pid
 bluePIDval = pid
 yellowPIDval = pid
@@ -28,28 +28,16 @@ camera.resolution = (640, 480)
 camera.framerate = 32
 rawCapture = PiRGBArray(camera, size=(640, 480))
 
-greenPos = (495, 464)
-bluePos = (97, 258)
-yellowPos = (469, 47)
-
-greenPin = 17
-bluePin = 27
-yellowPin = 22
-
+greenPos, bluePos, yellowPos = (495, 464), (97, 258), (469, 47)
+greenPin, bluePin, yellowPin = 17, 27, 22
 PWM = pigpio.pi()
-newServo(greenPin, PWM)
-newServo(bluePin, PWM)
-newServo(yellowPin, PWM)
 
-greenError = 0
-blueError = 0
-yellowError = 0
+for pin in [greenPin, bluePin, yellowPin]:
+    newServo(pin, PWM)
 
-greenIntegral = 0
-blueIntegral = 0
-yellowIntegral = 0
+greenError = blueError = yellowError = greenIntegral = blueIntegral = yellowIntegral = 0
 
-wantedDisGreen = calcDistance(greenPos, (300,300))  #normal == 247
+wantedDisGreen = calcDistance(greenPos, (300,300))
 wantedDisBlue = calcDistance(bluePos, (300,300))
 wantedDisYellow = calcDistance(yellowPos, (300,300))
 
