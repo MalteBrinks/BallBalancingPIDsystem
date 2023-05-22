@@ -67,16 +67,12 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
             greenError = calcError(wantedDisGreen, greenDistance)
             blueError = calcError(wantedDisBlue, blueDistance)
             yellowError = calcError(wantedDisYellow, yellowDistance)
-            
-            print(greenError, blueError, yellowError)
 
             greenPID, greenIntegral = calc(greenError, oldGreenError, (greenPIDval), greenIntegral)
             bluePID, blueIntegral =  calc(blueError, oldBlueError, (bluePIDval), blueIntegral)
             yellowPID, yellowIntegral = calc(yellowError, oldYellowError, (yellowPIDval), yellowIntegral)
             
-            greenRotation = mapToServo(greenPID)
-            blueRotation = mapToServo(bluePID)
-            yellowRotation = mapToServo(yellowPID)
+            greenRotation, blueRotation, yellowRotation = map(mapToServo, [greenPID, bluePID, yellowPID])
             
             for pin in [greenPin, bluePin, yellowPin]:
                 setServo(PWM, pin, greenRotation)
